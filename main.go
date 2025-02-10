@@ -24,7 +24,7 @@ func main() {
 	// Request router, which is call servemux in Go Land. This component is in charge
 	// of routing requests to the correct handler based on which resource is requested
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
+	mux.HandleFunc("/{$}", home)
 	mux.HandleFunc("/snippet/view", snippetView)
 	mux.HandleFunc("/snippet/create", snippetCreate)
 
