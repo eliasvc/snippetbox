@@ -11,6 +11,11 @@ import (
 // Turns out "/" in the servermux world is a catch-all: it will catch every request that
 // doesn't have a handler
 func home(w http.ResponseWriter, r *http.Request) {
+	// Here we are writing the custom header 'Server':'Go' to the response header map
+	// So, 'Server': 'Go' should be included in the response
+	// Note that custom headers have to be done before calls to w.Write() and w.WriteHeader() as any
+	// as any header added after will not be received by the client
+	w.Header().Add("Server", "Go")
 	w.Write([]byte("Hello from Snippetbox"))
 }
 
@@ -21,8 +26,7 @@ func snippetView(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	msg := fmt.Sprintf("Display a specific snippet with id %d", id)
-	w.Write([]byte(msg))
+	fmt.Fprintf(w, "Display a specific snippet with id %d...", id)
 }
 
 func snippetCreate(w http.ResponseWriter, r *http.Request) {
@@ -30,6 +34,8 @@ func snippetCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func snippetCreatePost(w http.ResponseWriter, r *http.Request) {
+	// HTTP Status Code 201 is frequently used as a response for a POST operation
+	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("Save a new snippet..."))
 }
 
