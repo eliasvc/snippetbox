@@ -34,6 +34,9 @@ func main() {
 	// When a snippet is created
 	mux.HandleFunc("POST /snippet/create", snippetCreatePost)
 
+	// Secret zip file
+	mux.HandleFunc("GET /secret/zip/file", downloadHandler)
+
 	err := http.ListenAndServe(":4000", mux)
 	if err != nil {
 		log.Fatal(err)
